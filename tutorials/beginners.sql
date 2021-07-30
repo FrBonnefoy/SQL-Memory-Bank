@@ -180,4 +180,17 @@ inner join film as f
 group by f.title
 order by number_of_actors DESC
 
-/* 16
+/* 16 “The Manager from Store 2 is
+working on expanding our film
+collection there.
+Could you pull a list of distinct titles
+and their descriptions, currently
+available in inventory at store 2?”*/
+
+
+/*17 “We will be hosting a meeting with
+all of our staff and advisors soon.
+Could you pull one list of all staff
+and advisor names, and include a
+column noting whether they are a
+staff member or advisor? Thanks!”*/
