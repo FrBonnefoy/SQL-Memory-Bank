@@ -174,7 +174,7 @@ ORDER BY lifetime_value DESC;
 please provide a list of advisor and investor names in one table? Could you please note whether they are an
 investor or an advisor, and for the investors, it would be good to include which company they work with.*/
 
-SELECT 
+SELECT
     *
 FROM
     (SELECT
@@ -191,4 +191,47 @@ ORDER BY last_name , first_name;
 
 /*8. We're interested in how well you have covered the most-awarded actors. Of all the actors with three types of
 awards, for what % of them do we carry a film? And how about for actors with two types of awards? Same
-questions. Finally, how about actors with just one award?
+questions. Finally, how about actors with just one award?*/
+
+SELECT
+    num_awards,
+    num_actors / (num_actors + num_actors_missing) AS 'carrying percentage'
+FROM
+    (SELECT
+        num_awards,
+            COUNT(DISTINCT (actor_award.actor_award_id)) AS num_actors
+    FROM
+        actor_award
+    LEFT JOIN (SELECT
+        film.title,
+            actor_award.actor_award_id,
+            actor.actor_id,
+            ROUND(LENGTH(awards) - LENGTH(REPLACE(awards, ',', ''))) + 1 AS num_awards
+    FROM
+        actor_award
+    INNER JOIN actor ON CONCAT(actor.last_name, '-', actor.first_name) = CONCAT(actor_award.last_name, '-', actor_award.first_name)
+    INNER JOIN film_actor ON actor.actor_id = film_actor.actor_id
+    INNER JOIN film ON film_actor.film_id = film.film_id) AS t1 ON actor_award.actor_award_id = t1.actor_award_id
+    WHERE
+        t1.actor_award_id IS NOT NULL
+    GROUP BY num_awards
+    ORDER BY num_awards) q1
+        INNER JOIN
+    (SELECT
+        ROUND(LENGTH(awards) - LENGTH(REPLACE(awards, ',', ''))) + 1 AS num_awards_missing,
+            COUNT(*) AS num_actors_missing
+    FROM
+        actor_award
+    LEFT JOIN (SELECT
+        actor_award.actor_award_id,
+            actor.actor_id,
+            ROUND(LENGTH(actor_award.awards) - LENGTH(REPLACE(actor_award.awards, ',', ''))) + 1 AS num_awards
+    FROM
+        actor_award
+    INNER JOIN actor ON CONCAT(actor.last_name, '-', actor.first_name) = CONCAT(actor_award.last_name, '-', actor_award.first_name)
+    INNER JOIN film_actor ON actor.actor_id = film_actor.actor_id
+    INNER JOIN film ON film_actor.film_id = film.film_id) AS t1 ON actor_award.actor_award_id = t1.actor_award_id
+    WHERE
+        t1.actor_award_id IS NULL
+    GROUP BY num_awards_missing) q2 ON q1.num_awards = q2.num_awards_missing
+ORDER BY num_awards DESC;
