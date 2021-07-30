@@ -172,7 +172,22 @@ ORDER BY lifetime_value DESC;
 
 /*7. My partner and I would like to get to know your board of advisors and any current investors. Could you
 please provide a list of advisor and investor names in one table? Could you please note whether they are an
-investor or an advisor, and for the investors, it would be good to include which company they work with.
+investor or an advisor, and for the investors, it would be good to include which company they work with.*/
+
+SELECT 
+    *
+FROM
+    (SELECT
+        last_name,
+            first_name,
+            'Advisor' AS type_,
+            'Not applicable' AS company
+    FROM
+        advisor UNION SELECT
+        last_name, first_name, 'Investor' AS type_, company_name
+    FROM
+        investor) AS t
+ORDER BY last_name , first_name;
 
 /*8. We're interested in how well you have covered the most-awarded actors. Of all the actors with three types of
 awards, for what % of them do we carry a film? And how about for actors with two types of awards? Same
