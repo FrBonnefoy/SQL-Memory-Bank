@@ -107,6 +107,24 @@ see how big of a hit it would be if a certain category of film became unpopular 
 We would like to see the number of films, as well as the average replacement cost, and total replacement
 cost, sliced by store and film category.*/
 
+SELECT
+    store_id,
+    rating,
+    AVG(replacement_cost) AS avg_replacement,
+    SUM(replacement_cost) AS total_replacement
+FROM
+    (SELECT
+        inv.inventory_id,
+            inv.store_id,
+            f.title,
+            f.rating,
+            f.rental_rate,
+            f.replacement_cost
+    FROM
+        inventory AS inv
+    INNER JOIN film AS f ON inv.film_id = f.film_id) AS t1
+GROUP BY store_id , rating;
+
 /*5. Similarly, we want to understand how diversified the inventory is in terms of replacement cost. We want to
 see how big of a hit it would be if a certain category of film became unpopular at a certain store.
 We would like to see the number of films, as well as the average replacement cost, and total replacement
