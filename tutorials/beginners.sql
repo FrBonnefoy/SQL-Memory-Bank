@@ -187,6 +187,11 @@ Could you pull a list of distinct titles
 and their descriptions, currently
 available in inventory at store 2?”*/
 
+select distinct(f.title) as titles, f.description
+from film as f
+inner join inventory as intry
+	on f.film_id = intry.film_id
+where intry.store_id = 2
 
 /*17 “We will be hosting a meeting with
 all of our staff and advisors soon.
@@ -194,3 +199,21 @@ Could you pull one list of all staff
 and advisor names, and include a
 column noting whether they are a
 staff member or advisor? Thanks!”*/
+
+SELECT 
+    *, CONCAT(g.type_staff, '-', g.local_id) AS global_id
+FROM
+    (SELECT
+        advisor_id AS local_id,
+            'advisor' AS type_staff,
+            last_name,
+            first_name
+    FROM
+        advisor UNION SELECT
+        staff_id AS local_id,
+            'staff' AS type_staff,
+            last_name,
+            first_name
+    FROM
+        staff) AS g
+ORDER BY g.last_name , g.first_name
