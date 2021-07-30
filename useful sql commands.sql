@@ -22,3 +22,11 @@ SET @database = 'name of db', @table='name of table';
 select * from information_schema.columns
 where table_schema = @database AND table_name=@table
 order by table_name, ordinal_position
+
+-- 4.) Find where a specific column is
+
+SET @database = 'mavenmovies';
+set @columnsearch = 'replacement_cost';
+select * from information_schema.columns
+where table_schema = @database and column_name = @columnsearch
+order by table_name, ordinal_position;	
