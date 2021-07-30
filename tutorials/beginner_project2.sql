@@ -61,10 +61,46 @@ SELECT
 FROM
     inventory AS inv
         INNER JOIN
-    film AS f ON inv.film_id = f.film_id
+    film AS f ON inv.film_id = f.film_id;
 
 /*3. From the same list of films you just pulled, please roll that data up and provide a summary level overview of
 your inventory. We would like to know how many inventory items you have with each rating at each store. */
+
+SELECT
+    store_id,
+    SUM(CASE
+        WHEN rating = 'PG' THEN 1
+        ELSE 0
+    END) AS 'PG',
+    SUM(CASE
+        WHEN rating = 'G' THEN 1
+        ELSE 0
+    END) AS 'G',
+    SUM(CASE
+        WHEN rating = 'NC-17' THEN 1
+        ELSE 0
+    END) AS 'NC-17',
+    SUM(CASE
+        WHEN rating = 'PG-13' THEN 1
+        ELSE 0
+    END) AS 'PG-13',
+    SUM(CASE
+        WHEN rating = 'R' THEN 1
+        ELSE 0
+    END) AS 'R',
+    COUNT(rating) AS 'Total'
+FROM
+    (SELECT
+        inv.inventory_id,
+            inv.store_id,
+            f.title,
+            f.rating,
+            f.rental_rate,
+            f.replacement_cost
+    FROM
+        inventory AS inv
+    INNER JOIN film AS f ON inv.film_id = f.film_id) AS t1
+GROUP BY store_id;
 
 /*4. Similarly, we want to understand how diversified the inventory is in terms of replacement cost. We want to
 see how big of a hit it would be if a certain category of film became unpopular at a certain store.
