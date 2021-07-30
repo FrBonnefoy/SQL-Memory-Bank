@@ -130,6 +130,27 @@ see how big of a hit it would be if a certain category of film became unpopular 
 We would like to see the number of films, as well as the average replacement cost, and total replacement
 cost, sliced by store and film category.*/
 
+SELECT
+    store_id AS store,
+    name AS category,
+    AVG(replacement_cost) AS avg_replacement,
+    SUM(replacement_cost) AS total_replacement
+FROM
+    (SELECT
+        inv.inventory_id,
+            inv.store_id,
+            f.title,
+            f.rating,
+            category.name,
+            f.rental_rate,
+            f.replacement_cost
+    FROM
+        inventory AS inv
+    INNER JOIN film AS f ON inv.film_id = f.film_id
+    INNER JOIN film_category AS fc ON f.film_id = fc.film_id
+    INNER JOIN category ON fc.category_id = category.category_id) AS t1
+GROUP BY store , category;
+
 /*6. We would like to understand how much your customers are spending with you, and also to know who your
 most valuable customers are. Please pull together a list of customer names, their total lifetime rentals, and the
 sum of all payments you have collected from them. It would be great to see this ordered on total lifetime value,
