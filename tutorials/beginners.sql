@@ -32,3 +32,16 @@ select customer_id, rental_id, amount, payment_date
 from payment
 where customer_id in (43,53,60,75) or amount > 5
 order by customer_id;
+
+--6. We need to understand the special features in our films.
+-- Could you pull a list of films which include a Behind the Scenes special feature?
+
+select title, special_features
+from film
+where special_features like '%Behind the Scenes%';
+
+/* 7. “I need to get a quick overview
+of how long our movies tend to
+be rented out for.
+Could you please pull a count of
+titles sliced by rental duration?” */
