@@ -51,6 +51,18 @@ FROM
 Please pull together a list of each inventory item you have stocked, including the store_id number, the
 inventory_id, the name of the film, the film’s rating, its rental rate and replacement cost.*/
 
+SELECT
+    inv.inventory_id,
+    inv.store_id,
+    f.title,
+    f.rating,
+    f.rental_rate,
+    f.replacement_cost
+FROM
+    inventory AS inv
+        INNER JOIN
+    film AS f ON inv.film_id = f.film_id
+
 /*3. From the same list of films you just pulled, please roll that data up and provide a summary level overview of
 your inventory. We would like to know how many inventory items you have with each rating at each store. */
 
