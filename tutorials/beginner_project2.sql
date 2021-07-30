@@ -27,6 +27,26 @@ Martin Moneybags"
 the managers’ names at each store, with the full address of each property (street address, district, city, and
 country please).*/
 
+SELECT
+    st.store_id,
+    staff.last_name AS manager_last_name,
+    staff.first_name AS manager_first_name,
+    adrs.address,
+    adrs.address2,
+    adrs.district,
+    city.city,
+    country.country
+FROM
+    store AS st
+        INNER JOIN
+    staff ON st.manager_staff_id = staff.staff_id
+        INNER JOIN
+    address AS adrs ON st.address_id = adrs.address_id
+        INNER JOIN
+    city ON adrs.city_id = city.city_id
+        INNER JOIN
+    country ON city.country_id = country.country_id;
+
 /*2. I would like to get a better understanding of all of the inventory that would come along with the business.
 Please pull together a list of each inventory item you have stocked, including the store_id number, the
 inventory_id, the name of the film, the film’s rating, its rental rate and replacement cost.*/
@@ -55,4 +75,4 @@ investor or an advisor, and for the investors, it would be good to include which
 
 /*8. We're interested in how well you have covered the most-awarded actors. Of all the actors with three types of
 awards, for what % of them do we carry a film? And how about for actors with two types of awards? Same
-questions. Finally, how about actors with just one award? 
+questions. Finally, how about actors with just one award?
