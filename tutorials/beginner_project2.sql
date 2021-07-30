@@ -156,6 +156,20 @@ most valuable customers are. Please pull together a list of customer names, thei
 sum of all payments you have collected from them. It would be great to see this ordered on total lifetime value,
 with the most valuable customers at the top of the list.*/
 
+SELECT
+    cs.last_name,
+    cs.first_name,
+    COUNT(rental.rental_id) AS lifetime_rentals,
+    SUM(pay.amount) AS lifetime_value
+FROM
+    customer AS cs
+        INNER JOIN
+    rental ON cs.customer_id = rental.customer_id
+        INNER JOIN
+    payment AS pay ON rental.rental_id = pay.payment_id
+GROUP BY cs.customer_id
+ORDER BY lifetime_value DESC;
+
 /*7. My partner and I would like to get to know your board of advisors and any current investors. Could you
 please provide a list of advisor and investor names in one table? Could you please note whether they are an
 investor or an advisor, and for the investors, it would be good to include which company they work with.
