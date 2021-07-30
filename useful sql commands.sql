@@ -27,6 +27,11 @@ order by table_name, ordinal_position
 
 SET @database = 'mavenmovies';
 set @columnsearch = 'replacement_cost';
-select * from information_schema.columns
-where table_schema = @database and column_name = @columnsearch
-order by table_name, ordinal_position;	
+SELECT 
+    *
+FROM
+    information_schema.columns
+WHERE
+    table_schema = @database
+        AND column_name = @columnsearch
+ORDER BY table_name , ordinal_position;	
