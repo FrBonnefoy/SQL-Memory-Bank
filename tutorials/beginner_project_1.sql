@@ -87,4 +87,3 @@ on cs.customer_id = rent.customer_id
 where rent.rental_id is not Null
 group by cs.customer_id
 order by number_of_rentals DESC;
- 
