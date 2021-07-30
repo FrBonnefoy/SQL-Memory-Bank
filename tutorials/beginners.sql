@@ -123,3 +123,61 @@ select store_id,
                end) as 'Inactive'
 from customer
 group by store_id
+
+/* 13 “Can you pull for me a list of each
+film we have in inventory?
+I would like to see the film’s title,
+description, and the store_id value
+associated with each item, and its
+inventory_id. Thanks!”*/
+
+select f.title, f.description, intry.inventory_id, intry.store_id
+from film as f
+inner join inventory as intry
+on f.film_id = intry.film_id
+
+/* 14 “Customers often ask which films
+their favorite actors appear in.
+It would be great to have a list of
+all actors, with each title that they
+appear in. Could you please pull
+that for me?”*/
+
+select act.first_name, act.last_name, f.title
+from actor as act
+inner join film_actor as fact
+	on act.actor_id = fact.actor_id
+inner join film as f
+	on fact.film_id = f.film_id
+order by act.last_name, act.first_name
+
+/* 15 “One of our investors is interested
+in the films we carry and how
+many actors are listed for each
+film title.
+
+Can you pull a list of all actors, and figure out how many titles are associated to each actor?
+
+Can you pull a list of all titles, and
+figure out how many actors are
+associated with each title?”*/
+
+select act.first_name, act.last_name, count(f.title) as number_of_movies
+from actor as act
+inner join film_actor as fact
+	on act.actor_id = fact.actor_id
+inner join film as f
+	on fact.film_id = f.film_id
+group by act.actor_id
+order by number_of_movies DESC;
+
+select f.title, count(act.actor_id) as number_of_actors
+from actor as act
+inner join film_actor as fact
+	on act.actor_id = fact.actor_id
+inner join film as f
+	on fact.film_id = f.film_id
+group by f.title
+order by number_of_actors DESC
+
+/* 16
