@@ -15,4 +15,7 @@ If you want to contact me you can reach me at <contact@franciscobonnefoy.com>.
 ## License
 <!--- If you're not sure which open license to use see https://choosealicense.com/--->
 
-This project uses the following license: [<MIT>](<link>).
+This project uses the following license:     
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
