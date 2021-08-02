@@ -17,5 +17,5 @@ If you want to contact me you can reach me at <contact@franciscobonnefoy.com>.
 
 This project uses the following license:     
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![GitHub](https://img.shields.io/github/license/FrBonnefoy/SQL-Memory-Bank)
 
