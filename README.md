@@ -19,7 +19,7 @@ This project uses the following license:
 
 ![GitHub](https://img.shields.io/github/license/FrBonnefoy/SQL-Memory-Bank)
 
-#Detailed Description of Contents:
+# Detailed Description of Contents:
 
 # Tutorials
 
