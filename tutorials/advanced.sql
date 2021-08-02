@@ -121,6 +121,25 @@ Could you pull weekly trends for both desktop and mobile
 so we can see the impact on volume?
 You can use 2012-04-15 until the bid change as a baseline*/
 
+SELECT
+    DATE(created_at) AS week_start_date,
+    SUM(CASE
+        WHEN device_type = 'desktop' THEN 1
+        ELSE 0
+    END) AS dtype_sessions,
+    SUM(CASE
+        WHEN device_type = 'mobile' THEN 1
+        ELSE 0
+    END) AS mtype_session
+FROM
+    website_sessions
+WHERE
+    website_sessions.created_at < '2012-06-09'
+        AND website_sessions.created_at > '2012-04-15'
+        AND utm_source = 'gsearch'
+        AND utm_campaign = 'nonbrand'
+GROUP BY WEEK(created_at);
+
 -- Website performance analysis
 /*
 Website content analysis is about understanding which pages are seen the
@@ -138,10 +157,39 @@ perform for your business objectives
 /*1 Could you help me get my head around the site by pulling
 the most-viewed website pages, ranked by session volume?*/
 
+
+SELECT
+    pageview_url,
+    COUNT(DISTINCT (website_session_id)) AS sessions
+FROM
+    website_pageviews
+WHERE
+    created_at < '2012-06-09'
+GROUP BY pageview_url
+ORDER BY sessions DESC
+
+
 /*2 It definitely seems like the homepage, the products page,
 and the Mr. Fuzzy page get the bulk of our traffic.
 I would like to understand traffic patterns more.
 I’ll follow up soon with a request to look at entry pages.*/
+
+
+SELECT
+    website_pageviews.pageview_url AS landing_page,
+    COUNT(first_pageviews.website_session_id) AS sessions_hitting_this_landing_page
+FROM
+    (SELECT
+        website_session_id,
+            MIN(website_pageview_id) AS min_pageview_id
+    FROM
+        website_pageviews
+    WHERE
+        created_at < '2012-06-12'
+    GROUP BY website_session_id) AS first_pageviews
+        LEFT JOIN
+    website_pageviews ON website_pageviews.website_pageview_id = first_pageviews.min_pageview_id
+GROUP BY website_pageviews.pageview_url
 
 /*3 Would you be able to pull a list of the top entry pages? I
 want to confirm where our users are hitting the site.
