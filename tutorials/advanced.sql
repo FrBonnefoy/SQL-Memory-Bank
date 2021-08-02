@@ -23,6 +23,17 @@ from, through yesterday?
 I’d like to see a breakdown by UTM source, campaign
 and referring domain if possible. Thanks! */
 
+SELECT
+    utm_campaign,
+    utm_content,
+    http_referer,
+    COUNT(DISTINCT (website_session_id)) AS sessions
+FROM
+    website_sessions
+WHERE
+    created_at < '2012-04-12'
+GROUP BY utm_campaign , utm_content , http_referer
+ORDER BY sessions DESC;
 
 /*2 Sounds like gsearch nonbrand is our major traffic source, but
 we need to understand if those sessions are driving sales.
@@ -32,11 +43,53 @@ we’ll need a CVR of at least 4% to make the numbers work.
 If we're much lower, we’ll need to reduce bids. If we’re
 higher, we can increase bids to drive more volume.*/
 
+SELECT
+    COUNT(DISTINCT (website_sessions.website_session_id)) AS sessions,
+    COUNT(DISTINCT (orders.order_id)) AS orders,
+    COUNT(DISTINCT (orders.order_id)) / COUNT(DISTINCT (website_sessions.website_session_id)) AS cvr
+FROM
+    website_sessions
+        LEFT JOIN
+    orders ON orders.website_session_id = website_sessions.website_session_id
+WHERE
+    website_sessions.created_at < '2012-04-14'
+        AND utm_source = 'gsearch'
+        AND utm_campaign = 'nonbrand';
+
+-- Bid optimization
+
+/* Analyzing for bid optimization is about understanding the value of various
+segments of paid traffic, so that you can optimize your marketing budget
+
+• Using conversion rate and revenue per click
+analyses to figure out how much you should
+spend per click to acquire customers
+• Understanding how your website and products
+perform for various subsegments of traffic (i.e.
+mobile vs desktop) to optimize within channels
+• Analyzing the impact that bid changes have on
+your ranking in the auctions, and the volume of
+customers driven to your site
+
+*/
+
+
 /*3 Based on your conversion rate analysis, we bid down
 gsearch nonbrand on 2012-04-15.
 Can you pull gsearch nonbrand trended session volume, by
 week, to see if the bid changes have caused volume to drop
 at all? */
+
+SELECT
+    DATE(created_at) AS week_start_date,
+    COUNT(DISTINCT (website_sessions.website_session_id)) AS sessions
+FROM
+    website_sessions
+WHERE
+    website_sessions.created_at < '2012-04-15'
+        AND utm_source = 'gsearch'
+        AND utm_campaign = 'nonbrand'
+GROUP BY WEEK(created_at);
 
 /*4 I was trying to use our site on my mobile device the other
 day, and the experience was not great.
@@ -44,6 +97,22 @@ Could you pull conversion rates from session to order, by
 device type?
 If desktop performance is better than on mobile we may be
 able to bid up for desktop specifically to get more volume?*/
+
+SELECT
+    website_sessions.device_type,
+    COUNT(DISTINCT (website_sessions.website_session_id)) AS sessions,
+    COUNT(DISTINCT (orders.order_id)) AS orders,
+    COUNT(DISTINCT (orders.order_id)) / COUNT(DISTINCT (website_sessions.website_session_id)) AS cvr
+FROM
+    website_sessions
+        LEFT JOIN
+    orders ON orders.website_session_id = website_sessions.website_session_id
+WHERE
+    website_sessions.created_at < '2012-05-12'
+        AND utm_source = 'gsearch'
+        AND utm_campaign = 'nonbrand'
+group by website_sessions.device_type;
+
 
 /*5 After your device-level analysis of conversion rates, we
 realized desktop was doing well, so we bid our gsearch
@@ -369,6 +438,9 @@ thought. If that’s the case, we might be able to spend a bit
 more to acquire them.
 Could you please pull data on how many of our website
 visitors come back for another session? 2014 to date is good. */
+
+select count(distinct(user_id)) from website_sessions
+where is_repeat_session = 1 and year(created_at)>=2014;
 
 /*2 Ok, so the repeat session data was really interesting to see.
 Now you’ve got me curious to better understand the behavior
