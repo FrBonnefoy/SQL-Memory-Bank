@@ -30,7 +30,7 @@ There are two tutorials that were tested on a MySQL database.
 
 ### 1. Beginner
 
-An overview of Data Analysis in MySQL. Nested queries, aggregation, and joins are used to gain insights on a business' performance.
+An overview of Data Analysis in MySQL. **Nested queries, aggregation, and joins** are used to gain insights on a business' performance.
 
 There are two projects and a walkthrough for the beginner's level. All answers are my own and verified with a given database.
 
@@ -38,24 +38,24 @@ There are two projects and a walkthrough for the beginner's level. All answers a
 
 MySQL used to analyze several features of an e-commerce website:
 
-* Channel conversion analysis
+* **Channel conversion analysis**
 
-* Optimization of bids and marketing expenses
+* **Optimization of bids and marketing expenses**
 
-* Website performance analysis
+* **Website performance analysis**
 
-* Landing page performance
+* **Landing page performance**
 
-* Analysis of conversion funnels
+* **Analysis of conversion funnels**
 
-* Channel portfolio optimization
+* **Channel portfolio optimization**
 
-* Analysis of direct traffic
+* **Analysis of direct traffic**
 
-* Analysis of seasonality and business patterns
+* **Analysis of seasonality and business patterns**
 
-* Product sales analysis
+* **Product sales analysis**
 
-* Multi-product analysis
+* **Multi-product analysis**
 
-* Product cross-selling
+* **Product cross-selling**
