@@ -28,13 +28,13 @@ This project uses the following license:
 
 There are two tutorials that were tested on a MySQL database.
 
-###1. Beginner
+### 1. Beginner
 
 An overview of Data Analysis in MySQL. Nested queries, aggregation, and joins are used to gain insights on a business' performance.
 
 There are two projects and a walkthrough for the beginner's level. All answers are my own and verified with a given database.
 
-###2. Advanced
+### 2. Advanced
 
 MySQL used to analyze several features of an e-commerce website:
 
